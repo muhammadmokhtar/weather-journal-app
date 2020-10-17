@@ -38,15 +38,26 @@ const setEntryData = async (url='', data = {}) => {
     try {
         const data = await response.json();
         console.log(data);
-        return data;
     }catch(error) {
     console.log("error: ", error);
     }
 }
+
+const getData = async(url) => {
+    const res = await fetch(url);
+    try {
+      const data = await res.json();
+      console.log(data);
+      return data;
+    } catch(err) {
+      console.log(err);
+    }
+  }
 // DOM content update
 
-const updateOnEntry  = async (data) => {
+const updateOnEntry  = async () => {
     try {
+        const data = await getData('/getData');
         entryDataDiv.style.display = "none";
         dateElement.innerText = data.date;
         tempElement.innerText = data.temp;
@@ -67,7 +78,7 @@ function generateEntry(event)  {
         const fullURL = baseUrl + "?zip=" + input.value + "&apiKey=" + apiKey + "&units=metric";
         // getTemp.then((temp) = > setEntryData())
         getTemp(fullURL).then((entryData) => 
-            setEntryData("/saveData", entryData)).then((data) => updateOnEntry(data));
+            setEntryData("/saveData", entryData)).then(() => updateOnEntry());
     } else {alert("Please enter a ZipCode!")}
   }
   btn.addEventListener('click', generateEntry);

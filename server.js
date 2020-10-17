@@ -23,7 +23,11 @@ const port = 8089;
 const listening  = () => console.log(`running on localhost: ${port}`);
 const server = app.listen(port, listening)
 
-const returnData = (req, res) => { console.log(`Temprature:  ${req.body.temp}`);
+const addData = (req, res) => { console.log(`Temprature:  ${req.body.temp}`);
                                         projectData = req.body;
-                                        res.send(projectData)}
-app.post('/saveData', returnData)
+                                        res.send("data added successfully")}
+app.post('/saveData', addData)
+
+const getData = (req, res) => res.send(projectData);
+
+app.get('/getData', getData)
